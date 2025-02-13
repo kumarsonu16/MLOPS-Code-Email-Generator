@@ -1,30 +1,23 @@
-# Use Amazon Linux as base image
-FROM amazonlinux:latest
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Set environment variables to reduce cache size
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_ROOT_USER_ACTION=ignore
-
-# Install Python and remove cache to save space
-RUN yum install -y python3 && \
-    alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
-    yum clean all && rm -rf /var/cache/yum
-
-# Set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy only necessary files
-COPY requirements.txt /app/
-COPY app /app
+# Copy the requirements file into the container
+COPY requirements.txt .
 
-# Install dependencies without cache
-RUN pip install -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port
+# Copy the current directory contents into the container at /app
+COPY app .
+
+# Expose the port your app runs on (Streamlit default is 8501)
 EXPOSE 8501
 
-# Run the Streamlit app
+# Define environment variable for Streamlit
+ENV STREAMLIT_SERVER_PORT=8501
+
+# Run the application
 CMD ["streamlit", "run", "main.py"]

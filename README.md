@@ -29,3 +29,11 @@ Copyright (C) All rights reserved.
 
 **Additional Terms:**
 This software is licensed under the MIT License. However, commercial use of this software is strictly prohibited without prior written permission from the author. Attribution must be given in all copies or substantial portions of the software.
+
+
+**Docker commands:**
+
+```commandline 
+docker build --no-cache -t cold-email-generator .
+docker run --env-file .env -p 8501:8501 cold-email-generator
+```
