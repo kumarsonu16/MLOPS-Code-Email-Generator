@@ -38,7 +38,7 @@ jobs:
       - name: Debug Secrets
         run: |
           echo "Docker Username: ${{ secrets.DOCKER_HUB_USERNAME }}"
-          echo "Docker Token Length: ${#secrets.DOCKER_HUB_TOKEN}"
+          echo "Docker Token Length: ${{secrets.DOCKER_HUB_TOKEN}}"
 
 
       # Step 5: Log in to Docker Hub
